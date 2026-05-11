@@ -5,11 +5,14 @@ Projet de machine learning supervisé dans le cadre de certification CDSD, Jedha
 ## Description du projet
 
 - **Cible** : `Weekly_Sales` (ventes de la semaine).
+
 - **Prédicteurs principaux** : 
    - indicateurs économiques (`Temperature`, `Fuel_Price`, `CPI`, `Unemployment`), 
    - indicateur de semaine de fête (`Holiday_Flag`), identifiant de magasin (`Store`), 
    - ainsi que des **features temporelles** dérivées de la date (`Year`, `Month`, `Day`, `DayOfWeek`).
-- **Données brutes** : fichier `data/Walmart_Store_sales.csv` - environ **150 lignes** et **8 colonnes** (`Store`, `Date`, `Weekly_Sales`, `Holiday_Flag`, `Temperature`, `Fuel_Price`, `CPI`, `Unemployment`), avec une part importante de **valeurs manquantes** (environ **50 %** des lignes incomplètes selon l’analyse EDA).
+
+- **Données brutes** : fichier `data/Walmart_Store_sales.csv` - environ **150 lignes** et **8 colonnes** (`Store`, `Date`, `Weekly_Sales`, `Holiday_Flag`, `Temperature`, `Fuel_Price`, `CPI`, `Unemployment`)
+
 - **Pipeline** : exploration (notebook 1), nettoyage et feature engineering (notebook 2), modélisation, validation croisée et sauvegarde des artefacts (notebook 3).
 
 ## Structure des fichiers
@@ -96,8 +99,11 @@ Les chemins relatifs (`../output/...`, `../data/...`) supposent que le **répert
 ## Résultats clés
 
 - **Meilleur modèle** : **régression linéaire** (`LinearRegression`), avec le meilleur **r2 sur le jeu de test** parmi les trois candidats.
+
 - **Régularisation** : **Ridge** (alpha optimal proche de **0,1**) et **Lasso** (alpha optimal proche de **1000**) légèrement derrière sur le r2 test et le RMSE test.
+
 - **Sur-apprentissage** : écart train/test sur le r2 modéré (**gap r2** inférieur à environ **5 %** pour les trois modèles dans les métriques exportées), ce qui suggère une généralisation acceptable compte tenu de la taille du jeu.
+
 - **Interprétation** : le magasin (**`Store`**, via l’encodage one-hot) est le facteur le plus discriminant ; le **Lasso** tend à **mettre à zéro** plusieurs coefficients — typiquement des variables comme **`Holiday_Flag`**, **`DayOfWeek`**, et une modalité de magasin (ex. **`Store_19`**) selon l’exécution du notebook 3.
 
 ### Tableau comparatif des modèles (jeu de test)
@@ -106,9 +112,9 @@ Valeurs indicatives issues du dernier export `output/data/metrics_comparison.csv
 
 | Modèle              | Hyperparamètre α | RMSE (test) | r2 (test) | gap r2 (train − test) |
 |---------------------|------------------|------------:|----------:|----------------------:|
-| LinearRegression    | —                | ≈ 151 200   | ≈ 0,933   | ≈ 0,043               |
-| Ridge               | 0,1              | ≈ 163 500   | ≈ 0,921   | ≈ 0,053               |
-| Lasso               | 1 000            | ≈ 166 500   | ≈ 0,918   | ≈ 0,056               |
+| LinearRegression    | -                | ~ 151 200   | ~ 0,933   | ~ 0,043               |
+| Ridge               | 0,1              | ~ 163 500   | ~ 0,921   | ~ 0,053               |
+| Lasso               | 1 000            | ~ 166 500   | ~ 0,918   | ~ 0,056               |
 
 *(Les valeurs exactes peuvent varier légèrement si vous ré-exécutez tout le pipeline ; le fichier CSV reste la référence chiffrée.)*
 
@@ -160,7 +166,8 @@ print(f"Ventes prédites : ${prediction[0]:,.2f}")
 **Points d’attention** :
 
 - Le **`OneHotEncoder`** a été ajusté sur les magasins présents dans les données d’entraînement : une valeur de **`Store`** jamais vue peut provoquer une erreur (`handle_unknown='error'` dans le pipeline d’origine).
-- Les nouvelles lignes doivent être **cohérentes** avec le prétraitement du notebook 2 (pas de NaN non gérés si le transformer ne les impute pas — ici le transformer attend des colonnes déjà au format du CSV prétraité).
+
+- Les nouvelles lignes doivent être **cohérentes** avec le prétraitement du notebook 2 (pas de NaN non gérés si le transformer ne les impute pas. Ici le transformer attend des colonnes déjà au format du CSV prétraité).
 
 ---
 
