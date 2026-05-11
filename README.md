@@ -171,5 +171,5 @@ print(f"Ventes prédites : ${prediction[0]:,.2f}")
 
 ---
 
-Contexte : certification Jedha - Bloc 3 Machine Learning Supervisé
-Auteurs : **RANJAKASOA Raphaël Marcellin**
+- Contexte : certification Jedha - Bloc 3 Machine Learning Supervisé
+- Auteurs : **RANJAKASOA Raphaël Marcellin**
